@@ -8,7 +8,7 @@ import string
 import sys
 import math
 
-if len(sys.argv) ==1 or len(sys.argv) >3:
+if len(sys.argv) == 1 or len(sys.argv) >3:
     parameter_count = 0        
     print(
         'Usage: \npwgen.py <length> <complexity>', 
@@ -34,12 +34,22 @@ else:
     parameter_count = 2
 
 passLength =  sys.argv[1]
-if passLength.isdigit():
-    passLength = int(passLength)    
-else:
-    passLength = 1
 
-#complexitymaintenance = 3
+#while True:
+    #try:
+        #passLength = int(passLength)
+    #except ValueError:    
+        #print('The length parameter must be an integer, not a letter :', passLength)            
+    #else:
+     #   print('Length can only be an integer. Not ', passLength)
+#        break
+
+#if passLength.isdigit():
+#    passLength = int(passLength)    
+#else:
+#    passLength = 1
+
+complexitymaintenance = int(3)
 
 if parameter_count == 2:    
     passwordComplexity = sys.argv[2]
@@ -49,10 +59,16 @@ else:
 
 
 def validatePasswordLength(passLength):
-    if passLength > 4 and passLength < 101 or passLength == 4:        
-        return True
-    else:
-        return False
+    try:
+        passLength = int(passLength)   
+        if passLength > 4 and passLength < 101 or passLength == 4:
+            return True
+        else:
+            return False
+    except ValueError:    
+        print(f"Length must be an integer, {passLength} is invalid.")            
+    else: 
+        print(f"Length {passLength} is invalid.") 
 
 def validatePasswordComplexity(passComplexity):
     if passComplexity in ('d','uc','n','s','ns'):      
@@ -66,7 +82,7 @@ def passwordGenerator(passLength, passComplexity):
     alphanumericsymbols = string.ascii_letters + string.digits + string.punctuation
     symbols = string.punctuation
     
-    if passComplexity == 'd':        
+    if passComplexity in 'd':        
         while True: 
             complexitymaintenance = 2
             cm = (math.floor(passLength/complexitymaintenance))
@@ -76,7 +92,7 @@ def passwordGenerator(passLength, passComplexity):
                 break
             return password
     
-    if passComplexity == 's':
+    if passComplexity in 's':
         while True:            
             complexitymaintenance = 3
             cm = (math.floor(passLength/complexitymaintenance))
@@ -87,7 +103,7 @@ def passwordGenerator(passLength, passComplexity):
                     break
             return password   
 
-    if passComplexity == 'n':
+    if passComplexity in 'n':
         while True:
             complexitymaintenance = 4
             cm = (math.floor(passLength/complexitymaintenance))
@@ -99,7 +115,7 @@ def passwordGenerator(passLength, passComplexity):
             return password    
 
 
-    if passComplexity == 'ns':
+    if passComplexity in 'ns':
         while True:
             complexitymaintenance = 4
             cm = (math.floor(passLength/complexitymaintenance))
@@ -111,8 +127,9 @@ def passwordGenerator(passLength, passComplexity):
                     break
             return password           
 
-    if passComplexity == 'uc':
+    if passComplexity in 'uc':
         while True:
+            print(type(passLength))
             complexitymaintenance = 4
             cm = (math.floor(passLength/complexitymaintenance))        
             password = ''.join(secrets.choice(alphabet) for i in range(passLength))
@@ -121,24 +138,25 @@ def passwordGenerator(passLength, passComplexity):
         return password            
 
 if parameter_count == 1:
-    if validatePasswordLength(passLength) == True:        
-        password = passwordGenerator(passLength,passwordComplexity)
-        print('VALID Length:',passLength, '\nDefault Complexity:',passwordComplexity)
-        print('Password:',password)
+    print(type(passLength))
+    if validatePasswordLength(passLength) is True:        
+        password = passwordGenerator(passLength,complexitymaintenance)
+        print(f"VALID Length: {passLength} \nDefault Complexity: {passwordComplexity}")
+        print(f"Password: {password}")
     else:
-        print('INVALID Length:',passLength)
+        print(f"INVALID Length: {passLength}")
 
 if parameter_count == 2:
-    if validatePasswordLength(passLength) == True:
-        if validatePasswordComplexity(passwordComplexity) ==True:
+    if validatePasswordLength(passLength) is True:
+        if validatePasswordComplexity(complexitymaintenance) is True:
             password = passwordGenerator(passLength,passwordComplexity)
-            print('VALID Length:',passLength, '\nVALID Complexity code:',passwordComplexity)
-            print('Password:',password)
+            print(f"VALID Length: {passLength} '\nVALID Complexity code: {passwordComplexity}")
+            print(f"Password: {password}")
         else: 
-            print('VALID Length:',passLength, '\nINVALID Complexity code:',passwordComplexity)           
+            print(f"VALID Length: {passLength} \nINVALID Complexity code: {passwordComplexity}")           
     else:
-        if validatePasswordComplexity(passwordComplexity) ==True:
-            print('INVALID Length:',passLength,'\nVALID Complexity code:',passwordComplexity)
+        if validatePasswordComplexity(passwordComplexity) is True:
+            print(f"INVALID Length: {passLength} \nVALID Complexity code: {passwordComplexity}")
         else:
-            print('INVALID Length:',passLength,'\nINVALID Complexity code:',passwordComplexity)
+            print(f"INVALID Length: {passLength} \nINVALID Complexity code: {passwordComplexity}")
 sys.exit()
