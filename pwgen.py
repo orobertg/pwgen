@@ -8,8 +8,19 @@ import string
 import sys
 import math
 
-if len(sys.argv) ==1 or len(sys.argv) >3:
-    parameter_count = 0        
+def get_number_of_arguments():
+    # 1 or 3 or more arguments we automatically print the help message
+    # the first argument is the name of the script which means no values were passed
+    if len(sys.argv) == 1 or len(sys.argv) > 3:
+        return 0
+    elif len(sys.argv) == 2:
+        return 1
+    else: 
+        len(sys.argv) == 3
+        return 2
+
+
+def how_to_use_message():
     print(
         'Usage: \npwgen.py <length> <complexity>', 
         '\n',
@@ -24,22 +35,50 @@ if len(sys.argv) ==1 or len(sys.argv) >3:
         '\n\t\ts = uppercase, lowercase, include symbols',
         '\n\t\tns = uppercase, lowercase, include numbers and symbols',
         '\n'
-        )     
-    sys.exit()
-elif len(sys.argv) == 2:
-    parameter_count = 1    
+        )    
+
+def show_message_valid_password(passLength):
+    print(f'Password Length is VALID: {passLength} \n')
+
+def show_message_valid_complexity(passwordComplexity):
+    print(f'Password Complexity is VALID: {passwordComplexity} \n')
+
+def check_passwordlength_is_number():
+    passLength =  sys.argv[1]
+    return passLength.isdigit()
+
+def is_PasswordLength_valid(passLength):
+    if passLength > 4 and passLength < 101 or passLength == 4:        
+        return True
+    else:
+        return False
+
+def is_PasswordComplexity_valid(passComplexity):
+    if passComplexity in ('d','uc','n','s','ns'):      
+        return True
+    else:        
+        return False        
+
+def main():
+    number_of_arguments = get_number_of_arguments()
     
-else: 
-    len(sys.argv) == 3
-    parameter_count = 2
+    
+if __name__ == "__main__":
+    main()    
 
-passLength =  sys.argv[1]
-if passLength.isdigit():
-    passLength = int(passLength)    
-else:
-    passLength = 1
 
-#complexitymaintenance = 3
+def get_password(number_of_arguments, passLength, passwordComplexity):
+    if number_of_arguments == 0:
+        how_to_use_message()
+    elif number_of_arguments == 1:
+        if check_passwordlength_is_number() == True:
+            passLength = int(passLength)
+            passwordComplexity = 'd'
+            password = generate_password(passLength, passwordComplexity)
+            print('
+
+'''
+complexitymaintenance = 3
 
 if parameter_count == 2:    
     passwordComplexity = sys.argv[2]
@@ -48,17 +87,9 @@ else:
     passwordComplexity = 'd'
 
 
-def validatePasswordLength(passLength):
-    if passLength > 4 and passLength < 101 or passLength == 4:        
-        return True
-    else:
-        return False
 
-def validatePasswordComplexity(passComplexity):
-    if passComplexity in ('d','uc','n','s','ns'):      
-        return True
-    else:        
-        return False
+
+
 
 def passwordGenerator(passLength, passComplexity):
     alphabet = string.ascii_letters
@@ -142,3 +173,4 @@ if parameter_count == 2:
         else:
             print('INVALID Length:',passLength,'\nINVALID Complexity code:',passwordComplexity)
 sys.exit()
+'''
